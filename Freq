@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frequências Binaurais, Chakras e Ondas Cerebrais</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #000;
+        }
+        #visual {
+            width: 400px;
+            height: 400px;
+            margin: 20px auto;
+            background-size: cover;
+            border-radius: 50%;
+            animation: pulse 5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+        .frequency-btn {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button.stop-btn {
+            background-color: red;
+            color: white;
+            padding: 10px 20px;
+            margin-top: 20px;
+        }
+        footer {
+            margin-top: 20px;
+            color: white;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Frequências Binaurais, Chakras e Ondas Cerebrais</h1>
+
+    <!-- Botões de frequências binaurais e chakras -->
+    <button class="frequency-btn" onclick="playBinaural(7.83)">Ressonância Schumann (7.83 Hz)</button>
+    <button class="frequency-btn" onclick="playBinaural(136.1)">OM (136.1 Hz)</button>
+    <button class="frequency-btn" onclick="playBinaural(256)">Chakra Raiz (256 Hz)</button>
+    <button class="frequency-btn" onclick="playBinaural(288)">Chakra Sacral (288 Hz)</button>
+    <button class="frequency-btn" onclick="playBinaural(320)">Chakra Plexo Solar (320 Hz)</button>
+    <button class="frequency-btn" onclick="playBinaural(341.3)">Chakra do Coração (341.3 Hz)</button>
+    <button class="frequency-btn" onclick="playBinaural(384)">Chakra da Garganta (384 Hz)</button>
+    <button class="frequency-btn" onclick="playBinaural(426.7)">Chakra do Terceiro Olho (426.7 Hz)</button>
+    <button class="frequency-btn" onclick="playBinaural(480)">Chakra Coroa (480 Hz)</button>
+
+    <!-- Botões de ondas cerebrais -->
+    <button class="frequency-btn" onclick="playBinaural(3)">Delta (0.5-4 Hz)</button>
+    <button class="frequency-btn" onclick="playBinaural(6)">Theta (4-8 Hz)</button>
+    <button class="frequency-btn" onclick="playBinaural(10)">Alpha (8-13 Hz)</button>
+    <button class="frequency-btn" onclick="playBinaural(15)">Beta (13-38 Hz)</button>
+    <button class="frequency-btn" onclick="playBinaural(40)">Gamma (38-100 Hz)</button>
+
+    <!-- Exibir descrição da frequência -->
+    <p id="frequencyDescription">Selecione uma frequência para aprender sobre seus benefícios e ver a animação fractal.</p>
+
+    <!-- Imagem fractal animada com pulsação -->
+    <div id="visual"></div>
+
+    <!-- Botão de parar -->
+    <button class="stop-btn" onclick="stopBinaural()">Parar Som</button>
+
+    <footer>
+        Desenvolvido por Houston e Leonardo
+    </footer>
+
+    <script>
+        let audioCtx;
+        let oscillator;
+        let isPlaying = false;
+
+        // Função para garantir que o AudioContext seja criado apenas após a interação do usuário
+        function initializeAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        // Função para tocar frequências binaurais
+        function playBinaural(freq) {
+            initializeAudioContext();  // Inicializa o AudioContext na primeira interação
+
+            if (isPlaying) stopBinaural(); // Para qualquer som anterior antes de começar um novo
+
+            // Descrição e fractais baseados na frequência
+            updateDescriptionAndFractals(freq);
+            
+            // Tocar o som binaural continuamente
+            oscillator = audioCtx.createOscillator();
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            oscillator.connect(audioCtx.destination);
+            oscillator.start();
+            isPlaying = true;
+        }
+
+        // Função para parar o som
+        function stopBinaural() {
+            if (oscillator) {
+                oscillator.stop();
+                isPlaying = false;
+            }
+        }
+
+        // Atualiza a descrição e os fractais baseados na frequência
+        function updateDescriptionAndFractals(freq) {
+            const descriptionElement = document.getElementById('frequencyDescription');
+            const visualElement = document.getElementById('visual');
+            
+            if (freq === 7.83) {
+                descriptionElement.innerText = "Ressonância de Schumann: Frequência natural da Terra, promove equilíbrio e conexão com o campo eletromagnético do planeta.";
+                visualElement.style.backgroundImage = "url('https://giphy.com/gifs/abstract-violet-fractal')";
+                document.body.style.backgroundColor = '#004d40'; // Cor esverdeada
+            } else if (freq === 136.1) {
+                descriptionElement.innerText = "OM: Frequência espiritual para meditação e alinhamento do Chakra Coronário.";
+                visualElement.style.backgroundImage = "url('https://giphy.com/gifs/abstract-indigo-fractal')";
+                document.body.style.backgroundColor = '#8e44ad'; // Cor violeta para OM
+            } else if (freq === 256) {
+                descriptionElement.innerText = "Chakra Raiz (Muladhara): Relacionado à estabilidade, segurança e enraizamento.";
+                visualElement.style.backgroundImage = "url('https://example.com/merkaba-animated.gif')";
+                document.body.style.backgroundColor = '#ff0000'; // Cor vermelha
+            } else if (freq === 288) {
+                descriptionElement.innerText = "Chakra Sacral (Swadhisthana): Focado na criatividade e energia sexual.";
+                visualElement.style.backgroundImage = "url('https://example.com/hexagram-animated.gif')";
+                document.body.style.backgroundColor = '#ff7f00'; // Cor laranja
+            } else if (freq === 320) {
+                descriptionElement.innerText = "Chakra Plexo Solar (Manipura): Estimula confiança e poder pessoal.";
+                visualElement.style.backgroundImage = "url('https://example.com/spiral-animated.gif')";
+                document.body.style.backgroundColor = '#ffff00'; // Cor amarela
+            } else if (freq === 341.3) {
+                descriptionElement.innerText = "Chakra do Coração (Anahata): Conecta-se ao amor incondicional e à cura emocional.";
+                visualElement.style.backgroundImage = "url('https://example.com/heart-fractal.gif')";
+                document.body.style.backgroundColor = '#00ff00'; // Cor verde
+            } else if (freq === 384) {
+                descriptionElement.innerText = "Chakra da Garganta (Vishuddha): Facilita a comunicação e autoexpressão.";
+                visualElement.style.backgroundImage = "url('https://example.com/throat-fractal.gif')";
+                document.body.style.backgroundColor = '#0000ff'; // Cor azul
+            } else if (freq === 426.7) {
+                descriptionElement.innerText = "Chakra do Terceiro Olho (Ajna): Relacionado à intuição e sabedoria interior.";
+                visualElement.style.backgroundImage = "url('https://example.com/third-eye-fractal.gif')";
+                document.body.style.backgroundColor = '#4b0082'; // Cor índigo
+            } else if (freq === 480) {
+                descriptionElement.innerText = "Chakra Coroa (Sahasrara): Conecta à espiritualidade e elevação.";
+                visualElement.style.backgroundImage = "url('https://example.com/crown-fractal.gif')";
+                document.body.style.backgroundColor = '#8e44ad'; // Cor violeta
+            } else if (freq === 3) {
+                descriptionElement.innerText = "Ondas Delta (0.5-4 Hz): Associadas ao sono profundo e regeneração.";
+                visualElement.style.backgroundImage = "url('https://example.com/delta-fractal.gif')";
+              document.body.style.backgroundColor = '#001f3f'; // Cor profunda
+            } else if (freq === 6) {
+                descriptionElement.innerText = "Ondas Theta (4-8 Hz): Relacionadas à meditação profunda, relaxamento e criatividade.";
+                visualElement.style.backgroundImage = "url('https://example.com/theta-fractal.gif')";
+                document.body.style.backgroundColor = '#0074D9'; // Cor de meditação
+            } else if (freq === 10) {
+                descriptionElement.innerText = "Ondas Alpha (8-13 Hz): Promove relaxamento enquanto mantém alerta e foco leve.";
+                visualElement.style.backgroundImage = "url('https://example.com/alpha-fractal.gif')";
+                document.body.style.backgroundColor = '#7FDBFF'; // Cor de relaxamento
+            } else if (freq === 15) {
+                descriptionElement.innerText = "Ondas Beta (13-38 Hz): Estimula a concentração, produtividade e alerta mental.";
+                visualElement.style.backgroundImage = "url('https://example.com/beta-fractal.gif')";
+                document.body.style.backgroundColor = '#FF851B'; // Cor vibrante para foco
+            } else if (freq === 40) {
+                descriptionElement.innerText = "Ondas Gamma (38-100 Hz): Associada à cognição elevada, percepção e consciência.";
+                visualElement.style.backgroundImage = "url('https://example.com/gamma-fractal.gif')";
+                document.body.style.backgroundColor = '#B10DC9'; // Cor de alta vibração
+            }
+        }
+    </script>
+</body>
+</html>
